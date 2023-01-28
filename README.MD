@@ -1,4 +1,4 @@
-# SQL REACT NODEJS PROJECT
+# PROJECT "EVENTS" (REACT NODEJS SQL)
     Purpose of the project: user registration for events
     Required:
         Administrator registration form
