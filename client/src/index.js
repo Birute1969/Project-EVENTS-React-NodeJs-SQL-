@@ -1,17 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { Route, Routes } from 'react-router';
+import styled from 'styled-components'
+import { ErrorPage } from './pages/ErrorPage/ErrorPage';
+import { Events } from './pages/Events/Events';
+import Landing from './pages/Landing/Landing';
+import { Login } from './pages/Login/Login';
+import { Register } from './pages/Register/Register';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const Title = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+  color: palevioletred;
+`;
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+function App() {
+  return (
+    <div>
+      <Title>Events</Title>
+      <Routes>
+        <Route path="/" element={<Landing/>}>
+          <Route index element= {<Events/>}/>
+        </Route>
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;
