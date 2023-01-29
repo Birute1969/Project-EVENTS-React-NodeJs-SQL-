@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from 'react-router';
+import styled from 'styled-components'
+import { ErrorPage } from './pages/ErrorPage/ErrorPage';
+import { Events } from './pages/Events/Events';
+import { Login } from './pages/Login/Login';
+import { Register } from './pages/Register/Register';
+
+const Title = styled.h1`
+  font-size: 1.5em;
+  text-align: center;
+  color: palevioletred;
+`;
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Title>Events</Title>
+      <Routes>
+        <Route path='/'/>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="*" element={<ErrorPage />} />
+        <Route path="/events" element={<Events />} />
+      </Routes>
     </div>
   );
 }

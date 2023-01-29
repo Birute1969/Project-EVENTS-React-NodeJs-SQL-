@@ -1,14 +1,14 @@
 const cors = require('cors');
 const express = require('express');
 const mysql = require('mysql2');
-const bcrypt = require('bcrypt');
+
 
 require('dotenv').config();
 
 const app = express();
 
 app.use(cors());
-app.use(express.json);
+app.use(express.json());
 
 const mysqlConfig = {
     host: process.env.MYSQL_HOST,
@@ -19,6 +19,22 @@ const mysqlConfig = {
 };
 
 const connection = mysql.createConnection(mysqlConfig);
+
+app.get('/users', (req, res) => {
+    connection.execute('SELECT * FROM users', (err, users) => {
+        console.log(users);
+        res.send(users);
+    });
+    
+});
+
+app.get('/events', (req, res) => {
+    connection.execute('SELECT * FROM events', (err, events) => {
+        console.log(events);
+        res.send(events);
+    });
+    
+});
 
 const PORT = 8080;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
