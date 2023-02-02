@@ -77,7 +77,5 @@ export const Register = () => {
                 </FormStyled>
             </RegisterContainer>
         </div>
-        
-
     )
 }
