@@ -1,6 +1,7 @@
 const cors = require('cors');
 const express = require('express');
 const mysql = require('mysql2');
+const bcrypt = require('bcrypt');
 
 
 require('dotenv').config();
@@ -35,6 +36,21 @@ app.get('/events', (req, res) => {
     });
     
 });
+
+app.post('/register', (req, res) => {
+    
+    const {first_name, last_name, email, password} = req.body;
+    const hashedPassword = bcrypt.hashSync(password, 15);
+
+    connection.execute(
+        'INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)',
+        [first_name, last_name, email,hashedPassword],
+        (err, result) => {
+            res.sendStatus(200);
+        }
+    )
+})
+
 
 const PORT = 8080;
 app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
