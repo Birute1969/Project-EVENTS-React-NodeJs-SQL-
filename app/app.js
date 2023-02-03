@@ -41,7 +41,7 @@ app.post('/register', (req, res) => {
     
     const {first_name, last_name, email, password} = req.body;
     const hashedPassword = bcrypt.hashSync(password, 15);
-    bcrypt.compareSync();
+    //bcrypt.compareSync();
 
     connection.execute(
         'INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)',
@@ -63,10 +63,11 @@ app.post('/login', (req, res) => {
             if (result.length === 0) {
                 res.send('Incorrect username or password');
             } else {
+                console.log(result)
                 const passwordHash = result[0].password
                 const isPasswordCorrect = bcrypt.compareSync(password, passwordHash);
                 if (isPasswordCorrect) {
-                    res.send('Successfuly logged in!');
+                    res.send(result[0]);
                 } else {
                     res.send('Incorrect username or password');
                 }

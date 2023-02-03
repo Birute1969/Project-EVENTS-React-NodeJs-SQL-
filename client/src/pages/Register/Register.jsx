@@ -67,10 +67,10 @@ export const Register = () => {
             <RegisterContainer>
                 <FormStyled onSubmit = {handleRegister} disabled={isLoading} column>
                     <h2>Register</h2>
-                    <Input placeholder="First Name" onChange = { (e)=> setFirstName(e.target.value)} value={first_name}></Input>
-                    <Input placeholder="Last Name" onChange = { (e)=> setLastName(e.target.value)} value={last_name}></Input>
-                    <Input placeholder="Email" onChange = { (e)=> setEmail(e.target.value)} value={email}></Input>
-                    <Input placeholder="Password" onChange= { (e)=> setPassword(e.target.value)} value={password}></Input>
+                    <Input placeholder="First Name" required onChange = { (e)=> setFirstName(e.target.value)} value={first_name}></Input>
+                    <Input placeholder="Last Name" required onChange = { (e)=> setLastName(e.target.value)} value={last_name}></Input>
+                    <Input placeholder="Email" required type= "email" onChange = { (e)=> setEmail(e.target.value)} value={email}></Input>
+                    <Input placeholder="Password" required type="password" onChange= { (e)=> setPassword(e.target.value)} value={password}></Input>
                     {error && <div>{error}</div>}
                     <Button>Register</Button>
                     <LinkStyled to="/login">Login</LinkStyled>

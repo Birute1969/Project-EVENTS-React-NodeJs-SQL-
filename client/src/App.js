@@ -1,6 +1,7 @@
-import { Route, Routes } from 'react-router';
+import { useState } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import { ErrorPage } from './pages/ErrorPage/ErrorPage';
+import { PageLayout } from './components/PageLayout/PageLayout';
 import { Events } from './pages/Events/Events';
 import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register';
@@ -11,18 +12,29 @@ const Title = styled.h1`
   color: palevioletred;
 `;
 
-
 function App() {
+  const navigate = useNavigate();
+  const[user, setUser] = useState(null);
+
+  const handleLoginSuccess = (user) => {
+    setUser(user);
+    navigate('/');
+  }
+
   return (
     <div>
       <Title>Events</Title>
+
       <Routes>
-        <Route path='/'/>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="*" element={<ErrorPage />} />
-        <Route path="/events" element={<Events />} />
+        <Route  path="/" element={<PageLayout user={user}/>}>
+          <Route index element={<Events/>} />
+        </Route>
+
+        <Route path="/register" element = {<Register/>}/>
+        <Route path="/login" element = {<Login onSuccess={handleLoginSuccess}/>}/>
+
       </Routes>
+      
     </div>
   );
 }

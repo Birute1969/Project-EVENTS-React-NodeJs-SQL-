@@ -30,8 +30,7 @@ export const Login = ({onSuccess}) => {
     const [password, setPassword] = useState('');
 
     const handleLogin = () => {
-        e.preventDefault();
-    
+        //e.preventDefault();
 
         fetch(`${process.env.REACT_APP_API_URL}/login`, {
             method: 'POST',
@@ -46,10 +45,11 @@ export const Login = ({onSuccess}) => {
         .then((res) => res.json())
         .then((data) => {
             onSuccess(data);
+            console.log(data);
         })
         .catch((e) => {
             console.log(e);
-        })
+        } )
        
     }
     return (
@@ -58,8 +58,19 @@ export const Login = ({onSuccess}) => {
             <LoginContainer>
                 <FormStyled onSubmit={handleLogin}>
                     <h2>Login</h2>
-                    <Input placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email}></Input>
-                    <Input placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password}></Input>
+                    <Input 
+                        placeholder="Email" required 
+                        type= "email" 
+                        onChange={(e) => setEmail(e.target.value)} 
+                        value={email}>
+                    </Input>
+
+                    <Input 
+                        placeholder="Password" required 
+                        type="password" 
+                        onChange={(e) => setPassword(e.target.value)} 
+                        value={password}>
+                    </Input>
                     
                     <Button>Login</Button>
                     <LinkStyled to="/register">Register</LinkStyled>
