@@ -38,17 +38,15 @@ app.get('/events', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-    
     const {first_name, last_name, email, password} = req.body;
     const hashedPassword = bcrypt.hashSync(password, 15);
-    //bcrypt.compareSync();
 
     connection.execute(
         'INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)',
         [first_name, last_name, email,hashedPassword],
         (err, result) => {
-            console.log(err)
-            res.sendStatus(200);
+            console.log(err);
+            res.send(result);
         }
     )
 })
@@ -61,6 +59,7 @@ app.post('/login', (req, res) => {
         [email],
         (err, result) => {
             if (result.length === 0) {
+                res.status(401);
                 res.send('Incorrect username or password');
             } else {
                 console.log(result)
@@ -69,6 +68,7 @@ app.post('/login', (req, res) => {
                 if (isPasswordCorrect) {
                     res.send(result[0]);
                 } else {
+                    res.status(401);
                     res.send('Incorrect username or password');
                 }
             }

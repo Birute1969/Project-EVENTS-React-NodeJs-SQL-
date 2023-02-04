@@ -24,6 +24,8 @@ const LinkStyled = styled(Link)`
 `;
 
 export const Register = () => {
+    //paduodame State
+    //nunaviguojame user su Navigate
     const navigate = useNavigate();
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
@@ -34,6 +36,7 @@ export const Register = () => {
 
     const handleRegister = () => {
         setIsLoading(true);
+        //uzregistruojame user:
         fetch(`${process.env.REACT_APP_API_URL}/register`, {
             method: 'POST',
             headers: {
@@ -51,6 +54,7 @@ export const Register = () => {
             return res.json();
         })
         .then((data) => {
+            //kai prisiregistruoja, nunaviguojame i login:
             navigate('/login');
             setIsLoading(false);
             setError('');
@@ -67,12 +71,37 @@ export const Register = () => {
             <RegisterContainer>
                 <FormStyled onSubmit = {handleRegister} disabled={isLoading} column>
                     <h2>Register</h2>
-                    <Input placeholder="First Name" required onChange = { (e)=> setFirstName(e.target.value)} value={first_name}></Input>
-                    <Input placeholder="Last Name" required onChange = { (e)=> setLastName(e.target.value)} value={last_name}></Input>
-                    <Input placeholder="Email" required type= "email" onChange = { (e)=> setEmail(e.target.value)} value={email}></Input>
-                    <Input placeholder="Password" required type="password" onChange= { (e)=> setPassword(e.target.value)} value={password}></Input>
+                    <Input 
+                        placeholder="First Name" 
+                        required 
+                        onChange = { (e)=> setFirstName(e.target.value)} 
+                        value={first_name}>
+                    </Input>
+
+                    <Input 
+                        placeholder="Last Name" 
+                        required 
+                        onChange = { (e)=> setLastName(e.target.value)} 
+                        value={last_name}>
+                    </Input>
+
+                    <Input 
+                        placeholder="Email" 
+                        required 
+                        type= "email" 
+                        onChange = { (e)=> setEmail(e.target.value)} 
+                        value={email}>
+                    </Input>
+                    <Input 
+                        placeholder="Password" 
+                        required 
+                        type="password" 
+                        onChange= { (e)=> setPassword(e.target.value)} 
+                        value={password}>
+                    </Input>
                     {error && <div>{error}</div>}
                     <Button>Register</Button>
+                    <h3>Already have an account?</h3>
                     <LinkStyled to="/login">Login</LinkStyled>
                 </FormStyled>
             </RegisterContainer>

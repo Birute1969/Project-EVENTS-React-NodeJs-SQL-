@@ -17,6 +17,7 @@ function App() {
   const[user, setUser] = useState(null);
 
   const handleLoginSuccess = (user) => {
+    //pasidedame user ir nunaviguojame i Events puslapi
     setUser(user);
     navigate('/');
   }
