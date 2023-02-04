@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import styled from 'styled-components'
 import { PageLayout } from './components/PageLayout/PageLayout';
+import { UserContextWrapper} from './contexts/UserContextWrapper';
 import { Events } from './pages/Events/Events';
 import { Login } from './pages/Login/Login';
 import { Register } from './pages/Register/Register';
@@ -13,30 +13,20 @@ const Title = styled.h1`
 `;
 
 function App() {
-  const navigate = useNavigate();
-  const[user, setUser] = useState(null);
-
-  const handleLoginSuccess = (user) => {
-    //pasidedame user ir nunaviguojame i Events puslapi
-    setUser(user);
-    navigate('/');
-  }
-
   return (
-    <div>
+    <UserContextWrapper>
       <Title>Events</Title>
 
       <Routes>
-        <Route  path="/" element={<PageLayout user={user}/>}>
+        <Route  path="/" element={<PageLayout/>}>
           <Route index element={<Events/>} />
         </Route>
 
         <Route path="/register" element = {<Register/>}/>
-        <Route path="/login" element = {<Login onSuccess={handleLoginSuccess}/>}/>
+        <Route path="/login" element = {<Login/>}/>
 
       </Routes>
-      
-    </div>
+    </UserContextWrapper>
   );
 }
 

@@ -23,6 +23,11 @@ const LinkStyled = styled(Link)`
     align-self: center ;
 `;
 
+const ErrorStyled = styled.div`
+    color: red;
+    text-align: center;
+`;
+
 export const Register = () => {
     //paduodame State
     //nunaviguojame user su Navigate
@@ -99,7 +104,7 @@ export const Register = () => {
                         onChange= { (e)=> setPassword(e.target.value)} 
                         value={password}>
                     </Input>
-                    {error && <div>{error}</div>}
+                    {error && <ErrorStyled>{error}</ErrorStyled>}
                     <Button>Register</Button>
                     <h3>Already have an account?</h3>
                     <LinkStyled to="/login">Login</LinkStyled>
