@@ -2,9 +2,10 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "../../components/Button/Button";
+import { Form } from "../../components/Form/Form";
 import { Input } from "../../components/Input/Input";
+import { LOCAL_STORAGE_JWT_TOKEN_KEY } from "../../constants/constants";
 import { UserContext } from "../../contexts/UserContextWrapper";
-
 
 const LoginContainer = styled.div`
     align-items: center;
@@ -14,31 +15,21 @@ const LoginContainer = styled.div`
     height: 100vh;
 `;
 
-const FormStyled = styled.form`
-    background-color: #fff;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 15px;
-`;
-
 const LinkStyled = styled(Link)`
     align-self: center;
 `;
 
-const FieldsetStyled = styled.fieldset`
-    border:0;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    justify-content: center;
+const FormStyled = styled(Form)`
+    max-width: 100%;
+    padding: 20px;
+    width: 400px;
 `;
-
+//stilizuojame error:
 const ErrorStyled = styled.div`
     color: red;
     text-align: center;
 `;
+
 
 export const Login = () => {
     const [email, setEmail] = useState('');
@@ -46,11 +37,9 @@ export const Login = () => {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const { setUser } = useContext(UserContext);
-    const navigate = useNavigate;
-    
+    const navigate = useNavigate();
 
     const handleLogin = () => {
-        //e.preventDefault();
         setIsLoading(true);
 
         fetch(`${process.env.REACT_APP_API_URL}/login`, {
@@ -65,17 +54,19 @@ export const Login = () => {
         })
         .then((res) => {
             if (res.status === 401) {
-                throw new Error('Incorrect user name or password');  
+                throw new Error('Incorrect username or password');
             }
+
             if (!res.ok) {
                 throw new Error('Something went wrong');
             }
+
             return res.json();
         })
-
         .then((data) => {
-            console.log(data);
-            setUser(data);
+            const { id, email, token } = data;
+            localStorage.setItem(LOCAL_STORAGE_JWT_TOKEN_KEY, token);
+            setUser({ id, email });
             setIsLoading(false);
             setError('');
             navigate('/');
@@ -85,35 +76,28 @@ export const Login = () => {
             setIsLoading(false);
         })
     }
-    return (
-        <div>
-            <h1>Login Page</h1>
-            <LoginContainer>
-                <FormStyled onSubmit={handleLogin} >
-                    <h2>Login</h2>
-                    <FieldsetStyled disabled={false}>
-                        <Input 
-                            placeholder="Email" required 
-                            type= "email" 
-                            onChange={(e) => setEmail(e.target.value)} 
-                            value={email}>
-                            
-                        </Input>
 
-                        <Input 
-                            placeholder="Password" required 
-                            type="password" 
-                            onChange={(e) => setPassword(e.target.value)} 
-                            value={password}>
-                            
-                        </Input>
-                        {error && <ErrorStyled>{error}</ErrorStyled>}
-                        <Button disabled={isLoading}>Login</Button>
-                        <h3>Don't have an account?</h3>
-                    </FieldsetStyled>
-                    <LinkStyled to="/register">Register</LinkStyled>
-                </FormStyled>
-            </LoginContainer>
-        </div>
-    )
+    return (
+        <LoginContainer>
+            <FormStyled onSubmit={handleLogin} disabled={isLoading} column>
+                <h1>Login to Events</h1>
+                <Input 
+                    placeholder="Email" required
+                    type= "email"
+                    onChange={(e) => setEmail(e.target.value)}
+                    value={email}
+                />
+                <Input 
+                    placeholder="Password" required
+                    type="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    value={password}
+                />
+                {error && <ErrorStyled>{error}</ErrorStyled>}
+                <Button>Login</Button>
+                <h3>Don't have an account?</h3>
+                <LinkStyled to="/register">Register</LinkStyled>
+            </FormStyled>
+        </LoginContainer>
+    );
 }

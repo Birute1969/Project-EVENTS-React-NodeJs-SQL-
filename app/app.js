@@ -3,6 +3,7 @@ const express = require('express');
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const e = require('cors');
+const jwt = require('jsonwebtoken');
 
 require('dotenv').config();
 
@@ -21,6 +22,16 @@ const mysqlConfig = {
 
 const connection = mysql.createConnection(mysqlConfig);
 
+const verifyToken = (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split('')[1];
+        jwt.verify(token, process.env.JWT_SECRET_KEY);
+        next();
+    } catch(e) {
+        res.send('Invalid Token');
+    }
+}
+
 app.get('/users', (req, res) => {
     connection.execute('SELECT * FROM users', (err, users) => {
         console.log(users);
@@ -29,11 +40,20 @@ app.get('/users', (req, res) => {
     
 });
 
-app.get('/events', (req, res) => {
-    connection.execute('SELECT * FROM events', (err, events) => {
+// app.get('/events', (req, res) => {
+//     connection.execute('SELECT * FROM events', (err, events) => {
+//         console.log(events);
+//         res.send(events);
+//     });
+    
+// });
+
+app.get('/events', verifyToken, (req, res) => {
+    const { userId } = req.query;
+    connection.execute('SELECT * FROM events WHERE userId=?', [userId], (err, events) => {
         console.log(events);
         res.send(events);
-    });
+    })
     
 });
 
@@ -68,7 +88,9 @@ app.post('/login', (req, res) => {
                 const passwordHash = result[0].password
                 const isPasswordCorrect = bcrypt.compareSync(password, passwordHash);
                 if (isPasswordCorrect) {
-                    res.send(result[0]);
+                    const { id, email} = result[0];
+                    const token = jwt.sign( {id, email}, process.env.JWT_SECRET_KEY);
+                    res.send({token, id, email });
                 } else {
                     res.sendStatus(401);
                 }

@@ -8,7 +8,7 @@ const FormStyled = styled.form`
     justify-content: center;
 `;
 
-const FieldsetStyled = styled.fieldset`
+export const FieldsetStyled = styled.fieldset`
     border: 0;
     display: flex;
     flex-direction: ${({ column }) => column ? 'column' : 'row'};
