@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 export const UserContext = createContext();
 
 export const UserContextWrapper = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null);//turime value
 
     const handleSetUser = (data) => setUser(data);// f-ja, kai galime keisti user
 
