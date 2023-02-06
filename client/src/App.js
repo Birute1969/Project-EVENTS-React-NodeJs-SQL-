@@ -38,6 +38,7 @@ function App() {
             <Route index element={<Events/>} />
           </Route>
 
+          <Route path="/events" element = {<Events/>}/>
           <Route path="/register" element = {<Register/>}/>
           <Route path="/login" element = {<Login/>}/>
           <Route path="*" element={<ErrorPage />} />

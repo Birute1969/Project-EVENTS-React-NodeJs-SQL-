@@ -5,6 +5,7 @@ import { Button } from "../../components/Button/Button";
 import { Form } from "../../components/Form/Form";
 import { UserContext } from '../../contexts/UserContextWrapper';
 import { LOCAL_STORAGE_JWT_TOKEN_KEY } from '../../constants/constants';
+import { DateTime } from 'luxon';
 
 const EventsList = styled.ul`
     display: flex;
@@ -13,6 +14,23 @@ const EventsList = styled.ul`
     list-style: none;
 `;
 
+const HoverOverlay = styled.div`
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    content: '';
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    left: 0;
+    position: absolute;
+    width: 100%;
+`;
+/*uždedame raudoną teksto spalvą*/
+const HoverOverlayContent = styled.div`
+    color: red;
+    font-size: 16px;
+`;
+/*į EventsListItem įdėsime HoverOverlay*/
 const EventsListItem = styled.li`
     align-items: center;
     border-radius: 10px;
@@ -23,6 +41,17 @@ const EventsListItem = styled.li`
     overflow: hidden;
     padding: 10px 30px;
     position: relative;
+
+/*elementas "HoverOverlay" ateina iš "EventsListItem"*/
+    ${HoverOverlay} {
+        visibility: hidden;
+    }
+
+    &:hover {
+        ${HoverOverlay} {
+            visibility: visible;
+    }
+}
 `;
 
 const EventSpan = styled.span`
@@ -35,7 +64,6 @@ const EventSpan = styled.span`
 `;
 
 export const Events = () => {
-    //susikuriame vidinį state
     const [events, setEvents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [client_name, setClient_Name] = useState('');
@@ -43,10 +71,11 @@ export const Events = () => {
     const [client_email, setClient_Email] = useState('');
     const [phone_number, setPhone_Number] = useState('');
     const [event_title, setEvent_Title] = useState('');
+    const [date, setDate] = useState('');
     const { user } = useContext(UserContext);
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API_URL}/attendees?userId=${user.id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/events?userId=${user.id}`, {
             headers: {
                 authorization: 'Bearer ' + localStorage.getItem(LOCAL_STORAGE_JWT_TOKEN_KEY)
             }
@@ -77,7 +106,8 @@ export const Events = () => {
                 client_email,
                 phone_number,
                 event_title,
-                userId: user.id
+                userId: user.id,
+                timestamp: date
             })
         })
         .then((res) => res.json())
@@ -93,55 +123,81 @@ export const Events = () => {
             }
         });
     }
+
+    const handleDeleteEvent = (id) => {
+        if (window.confirm('Do you really want to delete this event?')) {
+            fetch(`${process.env.REACT_APP_API_URL}/events/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    authorization: 'Bearer ' + localStorage.getItem(LOCAL_STORAGE_JWT_TOKEN_KEY)
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                //console.log(data);
+                setEvents(data);
+            });
+        }
+    }
+
     console.log(Events);
 
     return (
-        <>
-            <EventsList>
-                <h1>Events Page</h1>
-                <Form onSubmit={handleEventAdd}>
-                    <Input
-                        placeholder="Client Name" 
-                        required 
-                        onChange={(e) => setClient_Name(e.target.value)}
-                        value={client_name}
-                    />
-                    <Input
-                        placeholder="Client Surname" 
-                        required 
-                        onChange={(e) => setClient_Surname(e.target.value)}
-                        value={client_surname}
-                    />
-                    <Input
+        
+        <EventsList>
+            <Form onSubmit={handleEventAdd}>
+                <Input 
+                    placeholder="Client Name" 
+                    required 
+                    onChange={(e) => setClient_Name(e.target.value)}
+                    value={client_name}
+                />
+                <Input 
+                    placeholder="Client Surname" 
+                    required 
+                    onChange={(e) => setClient_Surname(e.target.value)}
+                    value={client_surname}
+                />
+                <Input
                         placeholder="Client Email" 
                         required 
                         onChange={(e) => setClient_Email(e.target.value)}
                         value={client_email}
                     />
-                    <Input
+                <Input
                         placeholder="Phone Number" 
                         required 
                         onChange={(e) => setPhone_Number(e.target.value)}
                         value={phone_number}
-                    />
-                    <Input
+                />
+                <Input
                         placeholder="Event Title" 
                         required 
                         onChange={(e) => setEvent_Title(e.target.value)}
                         value={event_title}
-                    />
-                    <Button>Add</Button>
-                </Form>
-                {events.map((ev) => (
-                    <EventsListItem key={ev.id}>
-                        <EventSpan>{ev.client_name}</EventSpan>
-                        <EventSpan>{ev.client_surname}</EventSpan>
-                        <EventSpan>{ev.client_email}</EventSpan>
-                        <EventSpan>{ev.phone_number}</EventSpan>
-                        <EventSpan>{ev.event_title}</EventSpan>
-                    </EventsListItem>
-                ))}
-            </EventsList>
-        </>
-    )
+                />
+                <Input 
+                    placeholder="Date"
+                    type="datetime-local"
+                    //required
+                    onChange={(e) => setDate(e.target.value)}
+                    value={date}
+                />
+                <Button>Add</Button>
+            </Form>
+            
+            {events.map((event) => (
+                <EventsListItem key={event.id} onClick={() => handleDeleteEvent(event.id)}>
+                    <HoverOverlay>
+                        <HoverOverlayContent>DELETE</HoverOverlayContent>
+                    </HoverOverlay>
+                    <EventSpan>{event.client_name}</EventSpan>
+                    <EventSpan>{event.client_surname}</EventSpan>
+                    <EventSpan>{event.client_email}</EventSpan>
+                    <EventSpan>{event.phone_number}</EventSpan>
+                    <EventSpan>{event.event_title} ({DateTime.fromISO(event.timestamp).toFormat('yyyy-LL-dd HH:mm')})</EventSpan>
+                </EventsListItem>
+            ))}
+        </EventsList>
+    );
 }

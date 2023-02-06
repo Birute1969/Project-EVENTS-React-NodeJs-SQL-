@@ -80,7 +80,7 @@ export const Login = () => {
     return (
         <LoginContainer>
             <FormStyled onSubmit={handleLogin} disabled={isLoading} column>
-                <h1>Login to Events</h1>
+                <h1>Events Registration</h1>
                 <Input 
                     placeholder="Email" required
                     type= "email"
