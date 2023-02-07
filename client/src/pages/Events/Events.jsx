@@ -12,6 +12,7 @@ const EventsList = styled.ul`
     flex-direction: column;
     gap: 8px;
     list-style: none;
+    background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
 `;
 
 const HoverOverlay = styled.div`
@@ -143,7 +144,6 @@ export const Events = () => {
     console.log(Events);
 
     return (
-        
         <EventsList>
             <Form onSubmit={handleEventAdd}>
                 <Input 

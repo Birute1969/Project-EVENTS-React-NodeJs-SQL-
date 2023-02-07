@@ -7,6 +7,10 @@ import { Input } from "../../components/Input/Input";
 
 const RegisterContainer = styled.div`
     align-items: center;
+    background-image: url("images/galaxy-wave.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: absolute;
     background-color: lightgrey;
     display: flex;
     justify-content: center;

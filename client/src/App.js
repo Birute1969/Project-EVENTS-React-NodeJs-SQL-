@@ -1,3 +1,4 @@
+import './App.css';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { PageLayout } from './components/PageLayout/PageLayout';
 import { ErrorPage } from './pages/ErrorPage/ErrorPage';

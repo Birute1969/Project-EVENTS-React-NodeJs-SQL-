@@ -3,7 +3,6 @@ const express = require('express');
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-//const fetch = require('node-fetch');
 
 require('dotenv').config();
 
@@ -22,34 +21,21 @@ const mysqlConfig = {
 
 const connection = mysql.createConnection(mysqlConfig);
 
-app.get('/users', (req, res) => {
-    connection.execute('SELECT * FROM users', (err, users) => {
-        console.log(users);
-        res.send(users);
-    });
-});
+//Pasitikriname ar yra ryšys su DB ir users lentele:
+// app.get('/users', (req, res) => {
+//     connection.execute('SELECT * FROM users', (err, users) => {
+//         console.log(users);
+//         res.send(users);
+//     });
+// });
 
-app.get('/events', (req, res) => {
-    connection.execute('SELECT * FROM events', (err, events) => {
-        console.log(events);
-        res.send(events);
-    });
-
-});
-
-app.post('/register', (req, res) => {
-
-    const {first_name, last_name, email, password} = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 15);
-
-    connection.execute(
-        'INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)',
-        [first_name, last_name, email,hashedPassword],
-        (err, result) => {
-            res.sendStatus(200);
-        }
-    )
-})
+//Pasitikriname ar yra ryšys su DB ir events lentele:
+// app.get('/events', (req, res) => {
+//     connection.execute('SELECT * FROM events', (err, events) => {
+//         console.log(events);
+//         res.send(events);
+//     });
+// });
 
 const getUserFromToken = (req) => {
     const token = req.headers.authorization.split(' ')[1];
@@ -132,16 +118,15 @@ app.delete('/events/:id', verifyToken, (req, res) => {
 
 app.post('/register', (req, res) => {
     const { first_name, last_name, email, password } = req.body;
-    const hashedPassword = bcrypt.hashSync(password, 12);
+    const hashedPassword = bcrypt.hashSync(password, 15);
 
     connection.execute(
-        'INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?)', 
-        [first_name, last_name, email, password, hashedPassword],
+        'INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)', 
+        [first_name, last_name, email, hashedPassword],
         (err, result) => {
             if (err?.code === 'ER_DUP_ENTRY') {
                 res.sendStatus(400);
             }
-            
             res.send(result);
         }
     )
