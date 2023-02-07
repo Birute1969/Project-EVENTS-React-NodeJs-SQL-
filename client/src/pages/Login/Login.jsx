@@ -9,19 +9,31 @@ import { UserContext } from "../../contexts/UserContextWrapper";
 
 const LoginContainer = styled.div`
     align-items: center;
-    background-image: url("images/event.jpg");
+    background-image: url("images/image_2.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: absolute;
-    background-color: lightgrey;
     background-color: lightgrey;
     display: flex;
     justify-content: center;
     height: 100vh;
 `;
+const H2 = styled.h2`
+    text-align: center;
+    color: #24a0ed ;
+    margin-top: 20px;
+    
+`;
+
+const H4 = styled.h4`
+    text-align: center;
+    color: #24a0ed;
+    margin-bottom: 0px;
+`;
 
 const LinkStyled = styled(Link)`
     align-self: center;
+    margin-bottom: 20px;
 `;
 
 const FormStyled = styled(Form)`
@@ -87,7 +99,10 @@ export const Login = () => {
             <h1>Login Page</h1>
             <LoginContainer>
                 <FormStyled onSubmit={handleLogin} disabled={isLoading} column>
-                    <h1>Events Registration</h1>
+                    <H2>Welcome Back!
+                        <br></br>
+                        Please login to continue!
+                    </H2>
                     <Input 
                         placeholder="Email" required
                         type= "email"
@@ -102,8 +117,8 @@ export const Login = () => {
                     />
                     {error && <ErrorStyled>{error}</ErrorStyled>}
                     <Button>Login</Button>
-                    <h3>Don't have an account?</h3>
-                    <LinkStyled to="/register">Register</LinkStyled>
+                    <H4>Don't have an account?</H4>
+                    <LinkStyled to="/register">Please Register</LinkStyled>
                 </FormStyled>
             </LoginContainer>
         </div>

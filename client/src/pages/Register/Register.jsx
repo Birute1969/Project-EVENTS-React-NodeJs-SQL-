@@ -7,7 +7,7 @@ import { Input } from "../../components/Input/Input";
 
 const RegisterContainer = styled.div`
     align-items: center;
-    background-image: url("images/galaxy-wave.jpg");
+    background-image: url("images/image_5.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: absolute;
@@ -25,11 +25,25 @@ const FormStyled = styled(Form)`
 
 const LinkStyled = styled(Link)`
     align-self: center ;
+    margin-bottom: 20px;
 `;
 
 const ErrorStyled = styled.div`
     color: red;
     text-align: center;
+`;
+
+const H2 = styled.h2`
+    text-align: center;
+    color: #24a0ed ;
+    margin-top: 20px;
+    
+`;
+
+const H4 = styled.h4`
+    text-align: center;
+    color: #24a0ed;
+    margin-bottom: 0px;
 `;
 
 export const Register = () => {
@@ -79,7 +93,7 @@ export const Register = () => {
             <h1>Register Page</h1>
             <RegisterContainer>
                 <FormStyled onSubmit = {handleRegister} disabled={isLoading} column>
-                    <h2>Register</h2>
+                    <H2>Register</H2>
                     <Input 
                         placeholder="First Name" 
                         required 
@@ -110,8 +124,10 @@ export const Register = () => {
                     </Input>
                     {error && <ErrorStyled>{error}</ErrorStyled>}
                     <Button>Register</Button>
-                    <h3>Already have an account?</h3>
-                    <LinkStyled to="/login">Login</LinkStyled>
+                    <H4>Already have an account?</H4>
+                    <LinkStyled to="/login">
+                        Login with existing account
+                    </LinkStyled>
                 </FormStyled>
             </RegisterContainer>
         </div>

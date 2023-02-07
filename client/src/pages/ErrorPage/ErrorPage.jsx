@@ -11,12 +11,23 @@ const ErrorStyled = styled.div`
     justify-content: center;
     
 `;
+const LinkStyled = styled(Link)`
+    align-self: center ;
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: 800;
+`;
+const H1 = styled.h1`
+    text-align: center;
+    color: orangered;
+    
+`;
 
 export const ErrorPage = () => {
     return (
         <ErrorStyled>
-            <h1>Page not found</h1>
-            <Link to="/">Go to Home page</Link>
+            <H1>Page not found</H1>
+            <LinkStyled to="/">Go to Home page</LinkStyled>
         </ErrorStyled>
 
     )

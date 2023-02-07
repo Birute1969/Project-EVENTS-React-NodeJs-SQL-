@@ -7,12 +7,23 @@ import { UserContext } from '../../contexts/UserContextWrapper';
 import { LOCAL_STORAGE_JWT_TOKEN_KEY } from '../../constants/constants';
 import { DateTime } from 'luxon';
 
+const EventsContainer = styled.div`
+    align-items: center;
+    background-image: url("images/image_1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: absolute;
+    background-color: lightgrey;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+`;
+
 const EventsList = styled.ul`
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
     list-style: none;
-    background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
 `;
 
 const HoverOverlay = styled.div`
@@ -28,17 +39,21 @@ const HoverOverlay = styled.div`
 `;
 /*uždedame raudoną teksto spalvą*/
 const HoverOverlayContent = styled.div`
-    color: red;
-    font-size: 16px;
+    color: orangered;
+    font-size: 20px;
+    font-weight: 800;
 `;
 /*į EventsListItem įdėsime HoverOverlay*/
 const EventsListItem = styled.li`
     align-items: center;
+    background: rgb(221,241,240);
+    background: linear-gradient(0deg, rgba(221,241,240,0.9864320728291317) 47%, rgba(70,252,189,1) 100%);
     border-radius: 10px;
     box-shadow: 0 5px 7px -1px rgb(51 51 51 / 23%);
     cursor: pointer;
     display: flex;
     justify-content: space-between;
+    margin-top: 10px ;
     overflow: hidden;
     padding: 10px 30px;
     position: relative;
@@ -47,7 +62,6 @@ const EventsListItem = styled.li`
     ${HoverOverlay} {
         visibility: hidden;
     }
-
     &:hover {
         ${HoverOverlay} {
             visibility: visible;
@@ -144,7 +158,8 @@ export const Events = () => {
     console.log(Events);
 
     return (
-        <EventsList>
+        <EventsContainer>
+            <EventsList>
             <Form onSubmit={handleEventAdd}>
                 <Input 
                     placeholder="Client Name" 
@@ -199,5 +214,6 @@ export const Events = () => {
                 </EventsListItem>
             ))}
         </EventsList>
+        </EventsContainer>
     );
 }
