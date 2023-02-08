@@ -1,82 +1,18 @@
 import { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
 import { Input } from "../../components/Input/Input";
 import { Button } from "../../components/Button/Button";
 import { Form } from "../../components/Form/Form";
+import { EventsContainer, 
+    EventsList, 
+    HoverOverlay, 
+    HoverOverlayContent, 
+    EventsListItem, 
+    H1, 
+    EventSpan } 
+    from "./EventsStyled";
 import { UserContext } from '../../contexts/UserContextWrapper';
 import { LOCAL_STORAGE_JWT_TOKEN_KEY } from '../../constants/constants';
 import { DateTime } from 'luxon';
-
-const EventsContainer = styled.div`
-    align-items: center;
-    background-image: url("images/image_1.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: absolute;
-    background-color: lightgrey;
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-`;
-
-const EventsList = styled.ul`
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    list-style: none;
-`;
-
-const HoverOverlay = styled.div`
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
-    content: '';
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    left: 0;
-    position: absolute;
-    width: 100%;
-`;
-/*uždedame raudoną teksto spalvą*/
-const HoverOverlayContent = styled.div`
-    color: orangered;
-    font-size: 20px;
-    font-weight: 800;
-`;
-/*į EventsListItem įdėsime HoverOverlay*/
-const EventsListItem = styled.li`
-    align-items: center;
-    background: rgb(221,241,240);
-    background: linear-gradient(0deg, rgba(221,241,240,0.9864320728291317) 47%, rgba(70,252,189,1) 100%);
-    border-radius: 10px;
-    box-shadow: 0 5px 7px -1px rgb(51 51 51 / 23%);
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px ;
-    overflow: hidden;
-    padding: 10px 30px;
-    position: relative;
-
-/*elementas "HoverOverlay" ateina iš "EventsListItem"*/
-    ${HoverOverlay} {
-        visibility: hidden;
-    }
-    &:hover {
-        ${HoverOverlay} {
-            visibility: visible;
-    }
-}
-`;
-
-const EventSpan = styled.span`
-    color: #979cb0;
-    font-size: 20px;
-    font-weight: 600;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-`;
 
 export const Events = () => {
     const [events, setEvents] = useState([]);
@@ -160,46 +96,48 @@ export const Events = () => {
     return (
         <EventsContainer>
             <EventsList>
-            <Form onSubmit={handleEventAdd}>
-                <Input 
-                    placeholder="Client Name" 
-                    required 
-                    onChange={(e) => setClient_Name(e.target.value)}
-                    value={client_name}
-                />
-                <Input 
-                    placeholder="Client Surname" 
-                    required 
-                    onChange={(e) => setClient_Surname(e.target.value)}
-                    value={client_surname}
-                />
-                <Input
-                        placeholder="Client Email" 
+            <H1>Events Registration List</H1>
+                <Form onSubmit={handleEventAdd}>
+                    <Input 
+                        placeholder="Client Name" 
                         required 
-                        onChange={(e) => setClient_Email(e.target.value)}
-                        value={client_email}
+                        onChange={(e) => setClient_Name(e.target.value)}
+                        value={client_name}
                     />
-                <Input
-                        placeholder="Phone Number" 
+                    <Input 
+                        placeholder="Client Surname" 
                         required 
-                        onChange={(e) => setPhone_Number(e.target.value)}
-                        value={phone_number}
-                />
-                <Input
-                        placeholder="Event Title" 
-                        required 
-                        onChange={(e) => setEvent_Title(e.target.value)}
-                        value={event_title}
-                />
-                <Input 
-                    placeholder="Date"
-                    type="datetime-local"
-                    //required
-                    onChange={(e) => setDate(e.target.value)}
-                    value={date}
-                />
-                <Button>Add</Button>
-            </Form>
+                        onChange={(e) => setClient_Surname(e.target.value)}
+                        value={client_surname}
+                    />
+                    <Input
+                            placeholder="Client Email" 
+                            required
+                            type= "email"
+                            onChange={(e) => setClient_Email(e.target.value)}
+                            value={client_email}
+                        />
+                    <Input
+                            placeholder="Phone Number +XXX XX XXXXX" 
+                            required 
+                            onChange={(e) => setPhone_Number(e.target.value)}
+                            value={phone_number}
+                    />
+                    <Input
+                            placeholder="Event Title" 
+                            required 
+                            onChange={(e) => setEvent_Title(e.target.value)}
+                            value={event_title}
+                    />
+                    <Input 
+                        placeholder="Date"
+                        type="datetime-local"
+                        //required
+                        onChange={(e) => setDate(e.target.value)}
+                        value={date}
+                    />
+                    <Button>Add</Button>
+                </Form>
             
             {events.map((event) => (
                 <EventsListItem key={event.id} onClick={() => handleDeleteEvent(event.id)}>
@@ -213,7 +151,7 @@ export const Events = () => {
                     <EventSpan>{event.event_title} ({DateTime.fromISO(event.timestamp).toFormat('yyyy-LL-dd HH:mm')})</EventSpan>
                 </EventsListItem>
             ))}
-        </EventsList>
+            </EventsList>
         </EventsContainer>
     );
 }

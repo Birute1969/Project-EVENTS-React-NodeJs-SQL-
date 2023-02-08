@@ -1,52 +1,16 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
-import { Form } from "../../components/Form/Form";
 import { Input } from "../../components/Input/Input";
+import { LoginContainer, 
+    H2, 
+    H4, 
+    LinkStyled, 
+    FormStyled, 
+    ErrorStyled} 
+    from "./LoginStyled";
 import { LOCAL_STORAGE_JWT_TOKEN_KEY } from "../../constants/constants";
 import { UserContext } from "../../contexts/UserContextWrapper";
-
-const LoginContainer = styled.div`
-    align-items: center;
-    background-image: url("images/image_2.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: absolute;
-    background-color: lightgrey;
-    display: flex;
-    justify-content: center;
-    height: 100vh;
-`;
-const H2 = styled.h2`
-    text-align: center;
-    color: #24a0ed ;
-    margin-top: 20px;
-    
-`;
-
-const H4 = styled.h4`
-    text-align: center;
-    color: #24a0ed;
-    margin-bottom: 0px;
-`;
-
-const LinkStyled = styled(Link)`
-    align-self: center;
-    margin-bottom: 20px;
-`;
-
-const FormStyled = styled(Form)`
-    max-width: 100%;
-    padding: 20px;
-    width: 400px;
-`;
-//stilizuojame error:
-const ErrorStyled = styled.div`
-    color: red;
-    text-align: center;
-`;
-
 
 export const Login = () => {
     const [email, setEmail] = useState('');
@@ -96,7 +60,6 @@ export const Login = () => {
 
     return (
         <div>
-            <h1>Login Page</h1>
             <LoginContainer>
                 <FormStyled onSubmit={handleLogin} disabled={isLoading} column>
                     <H2>Welcome Back!

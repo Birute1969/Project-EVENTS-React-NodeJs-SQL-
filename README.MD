@@ -10,6 +10,7 @@
 1) Run `npm install`
 2) Fill in `.env`
 3) Run `npm start`
+Required: To import SQL database into MYSQL WORKBENCH
 
 ## FE instructions
 1) Run `npm install`

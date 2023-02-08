@@ -3,7 +3,6 @@ import styled from 'styled-components';
 const FormStyled = styled.form`
     background-color: #fff;
     border-radius: 10px;
-    
     display: flex;
     flex-direction: column;
     justify-content: center;

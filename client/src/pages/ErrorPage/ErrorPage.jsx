@@ -1,34 +1,40 @@
-import { Link } from "react-router-dom";
-import styled from 'styled-components';
-
-const ErrorStyled = styled.div`
-    align-items: center;
-    background: rgb(131,58,180);
-    background: radial-gradient(circle, rgba(131,58,180,1) 0%, rgba(29,248,253,1) 38%, rgba(252,176,69,1) 100%);
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    justify-content: center;
-    
-`;
-const LinkStyled = styled(Link)`
-    align-self: center ;
-    margin-bottom: 20px;
-    font-size: 22px;
-    font-weight: 800;
-`;
-const H1 = styled.h1`
-    text-align: center;
-    color: orangered;
-    
-`;
+import React from 'react';
+import '../../App.css';
+import { ErrorStyled,
+    LinkStyled, 
+    H1, 
+    H2, 
+    LinkContainer } 
+    from "./ErrorPageStyled";
+import { FaFacebookSquare, 
+    FaInstagram, 
+    FaTiktok, 
+    FaTwitterSquare } 
+    from 'react-icons/fa'
 
 export const ErrorPage = () => {
     return (
         <ErrorStyled>
             <H1>Page not found</H1>
-            <LinkStyled to="/">Go to Home page</LinkStyled>
+            <LinkContainer>
+                <img src="/images/logo.png" alt=""/>
+                <LinkStyled to="/">Go to Home page</LinkStyled>
+            </LinkContainer>
+            <H2>You can find us on:</H2>
+            <LinkContainer>          
+                <a href="https://www.facebook.com">
+                    <FaFacebookSquare />
+                </a>
+                <a href="https://www.instagram.com">
+                    <FaInstagram />
+                </a>
+                <a href="https://www.tiktok.com">
+                    <FaTiktok />
+                </a>
+                <a href="https://twitter.com">
+                    <FaTwitterSquare />
+                </a>
+            </LinkContainer>
         </ErrorStyled>
-
     )
 }
